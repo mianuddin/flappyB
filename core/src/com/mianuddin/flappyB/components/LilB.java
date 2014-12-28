@@ -51,7 +51,7 @@ public class LilB {
     }
 
     public void flap(int flapDist) {
-        SoundManager.FLAP.play(1);
+        SoundManager.FLAP.play();
         if(positionY+texture.getHeight()+flapDist > flappyB.HEIGHT)
             positionY += flappyB.HEIGHT-(positionY+texture.getHeight());
         else if(positionY+texture.getHeight() <= flappyB.HEIGHT)

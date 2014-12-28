@@ -20,6 +20,7 @@ public class GameScreen extends Screen {
     final int PIPE_GAP = FLAP_DISTANCE+(FLAP_DISTANCE/2)+TextureManager.LILB.getHeight()+100;
     final int PIPE_MOVE_RATE = 5;
     boolean playing = true;
+    int points = 0;
     LilB lilb = new LilB();
     Pipes pipes1;
     Pipes pipes2;
@@ -42,6 +43,11 @@ public class GameScreen extends Screen {
     public void render(SpriteBatch sb) {
 
         moveComponents();
+
+        if(checkPoint(pipes1, lilb) || checkPoint(pipes2, lilb)) {
+            SoundManager.POINT.play();
+            points++;
+        }
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
@@ -82,9 +88,9 @@ public class GameScreen extends Screen {
             }
             pipes1.move(PIPE_MOVE_RATE);
             pipes2.move(PIPE_MOVE_RATE);
-            if(pipes1.getPositionX2() <= 0)
+            if(pipes1.getPositionX(2) <= 0)
                 pipes1 = new Pipes(PIPE_GAP);
-            if(pipes2.getPositionX2() <= 0)
+            if(pipes2.getPositionX(2) <= 0)
                 pipes2 = new Pipes(PIPE_GAP);
             lilb.pullDown(GRAVITY_RATE);
         }
@@ -97,12 +103,12 @@ public class GameScreen extends Screen {
     public void checkLose() {
         if((pipes1.checkCollision(lilb) || pipes2.checkCollision(lilb)) && playing) {
             playing = false;
-            SoundManager.HIT.play(1);
+            SoundManager.HIT.play();
             float delay = 1; // Length of hitSound
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    SoundManager.FALL.play(1);
+                    SoundManager.FALL.play();
                 }
             }, delay);
         }
@@ -111,5 +117,16 @@ public class GameScreen extends Screen {
             playing = false;
             SoundManager.HIT.play(1);
         }
+    }
+
+    public boolean checkPoint(Pipes pipes, LilB lilb) {
+        int centerPipes = pipes.getPositionX(1) + ((pipes.getPositionX(2) - pipes.getPositionX(1)) / 2);
+        int centerLilB = lilb.getPositionX(1) + ((lilb.getPositionX(2) - lilb.getPositionX(1)) / 2);
+        if(pipes.getPassed() != true && centerLilB >= centerPipes) {
+            pipes.setPassed();
+            return true;
+        }
+        else
+            return false;
     }
 }

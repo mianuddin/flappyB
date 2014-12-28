@@ -13,6 +13,7 @@ public class Pipes {
     private Texture ground = TextureManager.BG_GROUND;
     private int positionX, positionX2;
     private int positionTopY, positionTopY2, positionBottomY, positionBottomY2;
+    private boolean passed = false;
 
     public Pipes(int gap, int x) {
         this.positionX = x;
@@ -31,7 +32,7 @@ public class Pipes {
         this.positionTopY = flappyB.HEIGHT;
         Random randomGenerator = new Random();
         int randomInt;
-        randomInt = randomGenerator.nextInt(800)+1;
+        randomInt = randomGenerator.nextInt(720)+1;
         positionTopY2 = 548 + randomInt + gap;
         positionBottomY = positionTopY2 - gap;
         positionBottomY2 = 460;
@@ -47,9 +48,13 @@ public class Pipes {
         positionX -= rate;
         positionX2 -= rate;
     }
-    
-    public int getPositionX2() {
-        return positionX2;
+
+    public int getPositionX(int x) {
+        if(x == 1)
+            return positionX;
+        if(x == 2)
+            return positionX+textureUp.getWidth();
+        return 0;
     }
 
     public Rectangle getBoundsTop() {
@@ -62,5 +67,13 @@ public class Pipes {
 
     public boolean checkCollision(LilB bird) {
         return bird.getBounds().overlaps(getBoundsTop()) || bird.getBounds().overlaps(getBoundsBottom());
+    }
+
+    public boolean getPassed() {
+       return passed;
+    }
+
+    public void setPassed() {
+        passed = true;
     }
 }
