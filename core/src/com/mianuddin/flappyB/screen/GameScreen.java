@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
+import com.mianuddin.flappyB.SoundManager;
 import com.mianuddin.flappyB.TextureManager;
 import com.mianuddin.flappyB.camera.OrthoCamera;
 import com.mianuddin.flappyB.components.LilB;
@@ -22,8 +23,6 @@ public class GameScreen extends Screen {
     LilB lilb = new LilB();
     Pipes pipes1;
     Pipes pipes2;
-    Sound hitSound = Gdx.audio.newSound(Gdx.files.internal("hit.ogg"));
-    Sound fallSound = Gdx.audio.newSound(Gdx.files.internal("fall.ogg"));
 
     @Override
     public void create() {
@@ -42,25 +41,7 @@ public class GameScreen extends Screen {
     @Override
     public void render(SpriteBatch sb) {
 
-        if(playing) {
-            // Check for input.
-            if(Gdx.input.justTouched()) {
-                Vector2 touchPoint = new Vector2(camera.unprojectCoordinates(Gdx.input.getX(), Gdx.input.getY()));
-                lilb.flap(FLAP_DISTANCE);
-            }
-            pipes1.move(PIPE_MOVE_RATE);
-            pipes2.move(PIPE_MOVE_RATE);
-            if(pipes1.getPositionX2() <= 0)
-                pipes1 = new Pipes(PIPE_GAP);
-            if(pipes2.getPositionX2() <= 0)
-                pipes2 = new Pipes(PIPE_GAP);
-            lilb.pullDown(GRAVITY_RATE);
-        }
-
-        if(!playing && lilb.getPositionY(1) > 460) {
-            lilb.pullDown(8);
-
-        }
+        moveComponents();
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
@@ -70,17 +51,7 @@ public class GameScreen extends Screen {
         lilb.render(sb, playing);
         sb.end();
 
-        if((pipes1.checkCollision(lilb) || pipes2.checkCollision(lilb)) && playing) {
-            playing = false;
-            hitSound.play(1);
-            float delay = 1; // Length of hitSound
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    fallSound.play(0.75f);
-                }
-            }, delay);
-        }
+        checkLose();
     }
 
     @Override
@@ -103,7 +74,42 @@ public class GameScreen extends Screen {
 
     }
 
-    public void checkWin() {
+    public void moveComponents() {
+        if(playing) {
+            // Check for input.
+            if(Gdx.input.justTouched()) {
+                lilb.flap(FLAP_DISTANCE);
+            }
+            pipes1.move(PIPE_MOVE_RATE);
+            pipes2.move(PIPE_MOVE_RATE);
+            if(pipes1.getPositionX2() <= 0)
+                pipes1 = new Pipes(PIPE_GAP);
+            if(pipes2.getPositionX2() <= 0)
+                pipes2 = new Pipes(PIPE_GAP);
+            lilb.pullDown(GRAVITY_RATE);
+        }
 
+        if(!playing && lilb.getPositionY(1) > 460) {
+            lilb.pullDown(8);
+        }
+    }
+
+    public void checkLose() {
+        if((pipes1.checkCollision(lilb) || pipes2.checkCollision(lilb)) && playing) {
+            playing = false;
+            SoundManager.HIT.play(1);
+            float delay = 1; // Length of hitSound
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    SoundManager.FALL.play(1);
+                }
+            }, delay);
+        }
+
+        if(lilb.getPositionY(1) <= 460 && playing) {
+            playing = false;
+            SoundManager.HIT.play(1);
+        }
     }
 }

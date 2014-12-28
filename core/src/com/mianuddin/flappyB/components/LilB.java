@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
+import com.mianuddin.flappyB.SoundManager;
 import com.mianuddin.flappyB.TextureManager;
 import com.mianuddin.flappyB.flappyB;
 
@@ -14,7 +15,7 @@ public class LilB {
     private Texture texture = TextureManager.LILB;
     private static final int positionX = 180;
     int positionY = (460 + 720 - texture.getWidth());
-    Sound flapSound = Gdx.audio.newSound(Gdx.files.internal("flap.ogg"));
+
     boolean flap = false;
     int flapcount = 0;
 
@@ -50,7 +51,7 @@ public class LilB {
     }
 
     public void flap(int flapDist) {
-        flapSound.play(0.75f);
+        SoundManager.FLAP.play(1);
         if(positionY+texture.getHeight()+flapDist > flappyB.HEIGHT)
             positionY += flappyB.HEIGHT-(positionY+texture.getHeight());
         else if(positionY+texture.getHeight() <= flappyB.HEIGHT)
