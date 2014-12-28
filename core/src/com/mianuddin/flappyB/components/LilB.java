@@ -19,7 +19,7 @@ public class LilB {
     boolean flap = false;
     int flapcount = 0;
 
-    public void render(SpriteBatch sb, boolean playing) {
+    public void render(SpriteBatch sb, boolean playing, boolean splash) {
         Sprite lilbSprite = new Sprite(texture);
         lilbSprite.setPosition(positionX, positionY);
 
@@ -39,7 +39,7 @@ public class LilB {
             sb.draw(texture, positionX, positionY);
 
         // Falling Position
-        if(!playing) {
+        if(!playing && !splash) {
             lilbSprite.setRotation(lilbSprite.getRotation() + 90);
             lilbSprite.draw(sb);
         }

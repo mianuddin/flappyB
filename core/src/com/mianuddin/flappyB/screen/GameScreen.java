@@ -20,7 +20,8 @@ public class GameScreen extends Screen {
     final int FLAP_DISTANCE = 190;
     final int PIPE_GAP = FLAP_DISTANCE+(FLAP_DISTANCE/2)+TextureManager.LILB.getHeight()+100;
     final int PIPE_MOVE_RATE = 5;
-    boolean playing = true;
+    boolean playing = false;
+    boolean splash = true;
     public Integer points = new Integer(0);
     LilB lilb = new LilB();
     Pipes pipes1;
@@ -57,8 +58,9 @@ public class GameScreen extends Screen {
         sb.draw(TextureManager.BG, 0, 0);
         pipes1.render(sb);
         pipes2.render(sb);
-        lilb.render(sb, playing);
+        lilb.render(sb, playing, splash);
         drawScore(sb);
+        drawSplash(sb);
         sb.end();
 
         checkLose();
@@ -84,6 +86,18 @@ public class GameScreen extends Screen {
 
     }
 
+    public void drawSplash(SpriteBatch sb) {
+        if(splash) {
+            sb.draw(TextureManager.GET_READY,
+                    flappyB.WIDTH /2 - TextureManager.GET_READY.getWidth() / 2,
+                    flappyB.HEIGHT /2 - TextureManager.GET_READY.getHeight() / 2);
+            if(Gdx.input.justTouched()) {
+                splash = false;
+                playing = true;
+            }
+        }
+    }
+
     public void moveComponents() {
         if(playing) {
             // Check for input.
@@ -99,7 +113,7 @@ public class GameScreen extends Screen {
             lilb.pullDown(GRAVITY_RATE);
         }
 
-        if(!playing && lilb.getPositionY(1) > 460) {
+        if(!playing && lilb.getPositionY(1) > 460 && !splash) {
             lilb.pullDown(8);
         }
     }
@@ -126,7 +140,7 @@ public class GameScreen extends Screen {
     public boolean checkPoint(Pipes pipes, LilB lilb) {
         int centerPipes = pipes.getPositionX(1) + ((pipes.getPositionX(2) - pipes.getPositionX(1)) / 2);
         int centerLilB = lilb.getPositionX(1) + ((lilb.getPositionX(2) - lilb.getPositionX(1)) / 2);
-        if(pipes.getPassed() != true && centerLilB >= centerPipes) {
+        if(!pipes.getPassed() && centerLilB >= centerPipes) {
             pipes.setPassed();
             return true;
         }
