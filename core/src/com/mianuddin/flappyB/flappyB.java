@@ -53,3 +53,4 @@ public class flappyB extends ApplicationAdapter {
 		if (ScreenManager.getCurrentScreen() != null)
 			ScreenManager.getCurrentScreen().resume();
 	}
+}
