@@ -6,7 +6,13 @@ import com.mianuddin.flappyB.flappyB;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new flappyB(), config);
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.title = "Flappy B";
+		cfg.useGL30 = false;
+		cfg.width = 540;
+		cfg.height = 960;
+		cfg.resizable = false;
+
+		new LwjglApplication(new flappyB(), cfg);
 	}
 }
