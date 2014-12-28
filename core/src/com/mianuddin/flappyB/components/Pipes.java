@@ -2,6 +2,7 @@ package com.mianuddin.flappyB.components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.mianuddin.flappyB.TextureManager;
 import com.mianuddin.flappyB.flappyB;
 import java.util.Random;
@@ -29,7 +30,8 @@ public class Pipes {
         this.positionX2 = flappyB.WIDTH+textureUp.getWidth();
         this.positionTopY = flappyB.HEIGHT;
         Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(840)+1;
+        int randomInt;
+        randomInt = randomGenerator.nextInt(800)+1;
         positionTopY2 = 548 + randomInt + gap;
         positionBottomY = positionTopY2 - gap;
         positionBottomY2 = 460;
@@ -50,10 +52,15 @@ public class Pipes {
         return positionX2;
     }
 
-//    public boolean contains(float x, float y) {
-//        if(x >= positionX && x <= positionX2 && y >= positionY && y <= positionY2)
-//            return true;
-//        else
-//            return false;
-//    }
+    public Rectangle getBoundsTop() {
+        return new Rectangle(positionX, positionTopY2, textureUp.getWidth(), textureUp.getHeight());
+    }
+
+    public Rectangle getBoundsBottom() {
+        return new Rectangle(positionX, positionBottomY2, textureUp.getWidth(), positionBottomY-positionBottomY2);
+    }
+
+    public boolean checkCollision(LilB bird) {
+        return bird.getBounds().overlaps(getBoundsTop()) || bird.getBounds().overlaps(getBoundsBottom());
+    }
 }
