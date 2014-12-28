@@ -14,7 +14,7 @@ public class flappyB extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-//		ScreenManager.setScreen(new MenuScreen());
+		ScreenManager.setScreen(new GameScreen());
 	}
 
 	@Override
