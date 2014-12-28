@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.audio.Sound;
 import com.mianuddin.flappyB.TextureManager;
+import com.mianuddin.flappyB.flappyB;
 
 public class LilB {
 
@@ -24,9 +25,9 @@ public class LilB {
 
     public void flap(int flapDist) {
         flapSound.play(0.75f);
-        if(positionY+texture.getHeight()+flapDist > 1900)
-            positionY += 1900-(positionY+texture.getHeight());
-        else if(positionY+texture.getHeight() <= 1900)
+        if(positionY+texture.getHeight()+flapDist > flappyB.HEIGHT)
+            positionY += flappyB.HEIGHT-(positionY+texture.getHeight());
+        else if(positionY+texture.getHeight() <= flappyB.HEIGHT)
             positionY += flapDist;
     }
 
