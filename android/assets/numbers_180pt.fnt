@@ -1,0 +1,15 @@
+info face=numbers_180pt size=180 bold=0 italic=0 charset= unicode= stretchH=100 smooth=1 aa=1 padding=2,2,2,2 spacing=0,0 outline=0
+common lineHeight=180 base=142 scaleW=356 scaleH=452 pages=1 packed=0
+page id=0 file="numbers_180pt.png"
+chars count=10
+char id=48 x=2 y=2 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=49 x=2 y=152 width=58 height=148 xoffset=0 yoffset=0 xadvance=64 page=0 chnl=15
+char id=50 x=2 y=302 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=51 x=62 y=152 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=52 x=100 y=2 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=53 x=100 y=302 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=54 x=160 y=152 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=55 x=198 y=2 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=56 x=198 y=302 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=57 x=258 y=152 width=96 height=148 xoffset=0 yoffset=0 xadvance=103 page=0 chnl=15
+char id=32 x=0 y=0 width=0 height=0 xoffset=0 yoffset=0 xadvance=77 page=0 chnl=15

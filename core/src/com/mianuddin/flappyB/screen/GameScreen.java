@@ -2,6 +2,7 @@ package com.mianuddin.flappyB.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
@@ -20,10 +21,11 @@ public class GameScreen extends Screen {
     final int PIPE_GAP = FLAP_DISTANCE+(FLAP_DISTANCE/2)+TextureManager.LILB.getHeight()+100;
     final int PIPE_MOVE_RATE = 5;
     boolean playing = true;
-    int points = 0;
+    public Integer points = new Integer(0);
     LilB lilb = new LilB();
     Pipes pipes1;
     Pipes pipes2;
+    BitmapFont font;
 
     @Override
     public void create() {
@@ -32,6 +34,7 @@ public class GameScreen extends Screen {
         pipes1 = new Pipes(PIPE_GAP);
         pipes2 = new Pipes(PIPE_GAP,
                 flappyB.WIDTH + (flappyB.WIDTH / 2) + (TextureManager.PIPE_UP.getWidth() / 2)); // Offset the second pair of pipes.
+        font = new BitmapFont(Gdx.files.internal("numbers_180pt.fnt"));
     }
 
     @Override
@@ -55,6 +58,7 @@ public class GameScreen extends Screen {
         pipes1.render(sb);
         pipes2.render(sb);
         lilb.render(sb, playing);
+        drawScore(sb);
         sb.end();
 
         checkLose();
@@ -128,5 +132,12 @@ public class GameScreen extends Screen {
         }
         else
             return false;
+    }
+
+    public void drawScore(SpriteBatch sb) {
+        BitmapFont.TextBounds fontBounds = font.getBounds(points.toString());
+        font.draw(sb, points.toString(),
+                flappyB.WIDTH / 2 - fontBounds.width / 2,
+                flappyB.HEIGHT - 120);
     }
 }
