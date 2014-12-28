@@ -13,9 +13,9 @@ import com.mianuddin.flappyB.flappyB;
 public class GameScreen extends Screen {
 
     private OrthoCamera camera;
-    final int GRAVITY_RATE = 5;
+    final int GRAVITY_RATE = 6;
     final int FLAP_DISTANCE = 180;
-    final int PIPE_GAP = FLAP_DISTANCE+(FLAP_DISTANCE/3)+TextureManager.LILB.getHeight();
+    final int PIPE_GAP = FLAP_DISTANCE+(FLAP_DISTANCE/2)+TextureManager.LILB.getHeight();
     final int PIPE_MOVE_RATE = 5;
     LilB lilb = new LilB();
     Pipes pipes1;
@@ -26,7 +26,8 @@ public class GameScreen extends Screen {
         camera = new OrthoCamera();
         camera.resize();
         pipes1 = new Pipes(PIPE_GAP);
-        pipes2 = new Pipes(PIPE_GAP, flappyB.WIDTH+(flappyB.WIDTH/2));
+        pipes2 = new Pipes(PIPE_GAP,
+                flappyB.WIDTH + (flappyB.WIDTH / 2) + (TextureManager.PIPE_UP.getWidth() / 2)); // Offset the second pair of pipes.
     }
 
     @Override
