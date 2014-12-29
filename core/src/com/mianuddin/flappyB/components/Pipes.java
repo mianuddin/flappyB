@@ -32,7 +32,7 @@ public class Pipes {
         this.positionTopY = flappyB.HEIGHT;
         Random randomGenerator = new Random();
         int randomInt;
-        randomInt = randomGenerator.nextInt(640)+1;
+        randomInt = randomGenerator.nextInt(flappyB.HEIGHT-460-(88*2)-gap)+1;
         positionTopY2 = 548 + randomInt + gap;
         positionBottomY = positionTopY2 - gap;
         positionBottomY2 = 460;
