@@ -11,5 +11,7 @@ public class TextureManager {
     public static Texture LILB = new Texture(Gdx.files.internal("lilB.png"));
     public static Texture PIPE_UP = new Texture(Gdx.files.internal("pipe_up.png"));
     public static Texture PIPE_DOWN = new Texture(Gdx.files.internal("pipe_down.png"));
+    public static Texture GAME_OVER = new Texture(Gdx.files.internal("game_over.png"));
+    public static Texture REPLAY = new Texture(Gdx.files.internal("replay.png"));
 
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mianuddin.flappyB.SoundManager;
 import com.mianuddin.flappyB.TextureManager;
 import com.mianuddin.flappyB.camera.OrthoCamera;
+import com.mianuddin.flappyB.components.Button;
 import com.mianuddin.flappyB.components.LilB;
 import com.mianuddin.flappyB.components.Pipes;
 import com.mianuddin.flappyB.flappyB;
@@ -22,7 +23,7 @@ public class GameScreen extends Screen {
     final int PIPE_MOVE_RATE = 5;
     boolean playing = false;
     boolean splash = true;
-    public Integer points = new Integer(0);
+    public Integer points = 0;
     LilB lilb = new LilB();
     Pipes pipes1;
     Pipes pipes2;
@@ -36,6 +37,7 @@ public class GameScreen extends Screen {
         pipes2 = new Pipes(PIPE_GAP,
                 flappyB.WIDTH + (flappyB.WIDTH / 2) + (TextureManager.PIPE_UP.getWidth() / 2)); // Offset the second pair of pipes.
         font = new BitmapFont(Gdx.files.internal("numbers_180pt.fnt"));
+        SoundManager.WOOSH.play();
     }
 
     @Override
@@ -48,6 +50,11 @@ public class GameScreen extends Screen {
 
         moveComponents();
 
+        if(Gdx.input.justTouched()) {
+            Vector2 touchPoint = new Vector2(camera.unprojectCoordinates(Gdx.input.getX(), Gdx.input.getY()));
+            System.out.println("(" + touchPoint.x + ", " + touchPoint.y + ")");
+        }
+
         if(checkPoint(pipes1, lilb) || checkPoint(pipes2, lilb)) {
             SoundManager.POINT.play();
             points++;
@@ -59,8 +66,10 @@ public class GameScreen extends Screen {
         pipes1.render(sb);
         pipes2.render(sb);
         lilb.render(sb, playing, splash);
-        drawScore(sb);
+        if(playing && !splash)
+            drawScore(sb);
         drawSplash(sb);
+        drawGameOver(sb);
         sb.end();
 
         checkLose();
@@ -92,8 +101,34 @@ public class GameScreen extends Screen {
                     flappyB.WIDTH /2 - TextureManager.GET_READY.getWidth() / 2,
                     flappyB.HEIGHT /2 - TextureManager.GET_READY.getHeight() / 2);
             if(Gdx.input.justTouched()) {
+                lilb.flap(FLAP_DISTANCE);
                 splash = false;
                 playing = true;
+            }
+        }
+    }
+
+    public void drawGameOver(SpriteBatch sb) {
+
+        if(!playing && !splash)  {
+
+            // Game Over Screen
+            sb.draw(TextureManager.GAME_OVER,
+                    flappyB.WIDTH /2 - TextureManager.GAME_OVER.getWidth() / 2,
+                    flappyB.HEIGHT /2 - TextureManager.GAME_OVER.getHeight() / 2);
+            BitmapFont.TextBounds fontBounds = font.getBounds(points.toString());
+            font.draw(sb, points.toString(),
+                    216,
+                    1084);
+
+            // Replay Button
+            Button replay = new Button(TextureManager.REPLAY, flappyB.WIDTH / 2 - TextureManager.REPLAY.getWidth() /2,
+                    780 - 120 - TextureManager.REPLAY.getHeight());
+            replay.render(sb);
+            if(Gdx.input.justTouched()) {
+                Vector2 touchPoint = new Vector2(camera.unprojectCoordinates(Gdx.input.getX(), Gdx.input.getY()));
+                if(replay.contains(touchPoint.x, touchPoint.y))
+                    ScreenManager.setScreen(new GameScreen());
             }
         }
     }
