@@ -50,11 +50,6 @@ public class GameScreen extends Screen {
 
         moveComponents();
 
-        if(Gdx.input.justTouched()) {
-            Vector2 touchPoint = new Vector2(camera.unprojectCoordinates(Gdx.input.getX(), Gdx.input.getY()));
-            System.out.println("(" + touchPoint.x + ", " + touchPoint.y + ")");
-        }
-
         if(checkPoint(pipes1, lilb) || checkPoint(pipes2, lilb)) {
             SoundManager.POINT.play();
             points++;
