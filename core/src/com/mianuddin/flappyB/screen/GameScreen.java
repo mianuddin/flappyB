@@ -17,14 +17,14 @@ import com.mianuddin.flappyB.flappyB;
 public class GameScreen extends Screen {
 
     private OrthoCamera camera;
-    final int GRAVITY_RATE = 7;
-    final int FLAP_DISTANCE = 190;
-    final int PIPE_GAP = FLAP_DISTANCE+(FLAP_DISTANCE/2)+TextureManager.LILB.getHeight()+100;
+    final int GRAVITY_RATE = 10;
+    final int FLAP_DISTANCE = 240;
+    final int PIPE_GAP = FLAP_DISTANCE+TextureManager.LILB.getHeight()+(TextureManager.LILB.getHeight()/3);
     final int PIPE_MOVE_RATE = 5;
     boolean playing = false;
     boolean splash = true;
     public Integer points = 0;
-    LilB lilb = new LilB();
+    LilB lilb = new LilB(FLAP_DISTANCE, GRAVITY_RATE);
     Pipes pipes1;
     Pipes pipes2;
     BitmapFont font;
@@ -96,7 +96,7 @@ public class GameScreen extends Screen {
                     flappyB.WIDTH /2 - TextureManager.GET_READY.getWidth() / 2,
                     flappyB.HEIGHT /2 - TextureManager.GET_READY.getHeight() / 2);
             if(Gdx.input.justTouched()) {
-                lilb.flap(FLAP_DISTANCE);
+                lilb.flap();
                 splash = false;
                 playing = true;
             }
@@ -132,7 +132,7 @@ public class GameScreen extends Screen {
         if(playing) {
             // Check for input.
             if(Gdx.input.justTouched()) {
-                lilb.flap(FLAP_DISTANCE);
+                lilb.flap();
             }
             pipes1.move(PIPE_MOVE_RATE);
             pipes2.move(PIPE_MOVE_RATE);
@@ -140,11 +140,11 @@ public class GameScreen extends Screen {
                 pipes1 = new Pipes(PIPE_GAP);
             if(pipes2.getPositionX(2) <= 0)
                 pipes2 = new Pipes(PIPE_GAP);
-            lilb.pullDown(GRAVITY_RATE);
+            lilb.pullDown();
         }
 
         if(!playing && lilb.getPositionY(1) > 460 && !splash) {
-            lilb.pullDown(8);
+            lilb.pullDown();
         }
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Timer;
 import com.mianuddin.flappyB.SoundManager;
 import com.mianuddin.flappyB.TextureManager;
 import com.mianuddin.flappyB.flappyB;
@@ -14,10 +15,16 @@ public class LilB {
 
     private Texture texture = TextureManager.LILB;
     private static final int positionX = 180;
-    int positionY = (460 + 720 - texture.getWidth());
+    private int positionY = (460 + 720 - texture.getWidth());
+    private boolean flap = false;
+    private int frameCount = 0;
+    private int flapDistance;
+    private int gravityRate;
 
-    boolean flap = false;
-    int flapcount = 0;
+    public LilB(int flapDistance, int gravityRate) {
+        this.flapDistance = flapDistance;
+        this.gravityRate = gravityRate;
+    }
 
     public void render(SpriteBatch sb, boolean playing, boolean splash) {
         Sprite lilbSprite = new Sprite(texture);
@@ -27,10 +34,10 @@ public class LilB {
         if(playing && flap) {
             lilbSprite.setRotation(lilbSprite.getRotation() + 25);
             lilbSprite.draw(sb);
-            flapcount++;
-            if(flapcount == 30) {
+            frameCount++;
+            if(frameCount == 30) {
                 flap = false;
-                flapcount = 0;
+                frameCount = 0;
             }
         }
 
@@ -45,17 +52,17 @@ public class LilB {
         }
     }
 
-    public void pullDown(int gravityRate) {
+    public void pullDown() {
         if(positionY >= 460 || positionY-gravityRate >= 460)
             positionY -= gravityRate;
     }
 
-    public void flap(int flapDist) {
+    public void flap() {
         SoundManager.FLAP.play();
-        if(positionY+texture.getHeight()+flapDist > flappyB.HEIGHT)
+        if(positionY+texture.getHeight()+flapDistance > flappyB.HEIGHT)
             positionY += flappyB.HEIGHT-(positionY+texture.getHeight());
         else if(positionY+texture.getHeight() <= flappyB.HEIGHT)
-            positionY += flapDist;
+            positionY += flapDistance;
         flap = true;
     }
 
