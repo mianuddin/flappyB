@@ -1,6 +1,7 @@
 package com.mianuddin.flappyB.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,6 +29,7 @@ public class GameScreen extends Screen {
     Pipes pipes1;
     Pipes pipes2;
     BitmapFont font;
+    Preferences pref = Gdx.app.getPreferences("Flappy Scores");
 
     @Override
     public void create() {
@@ -47,6 +49,11 @@ public class GameScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
+
+        if(Gdx.input.justTouched()) {
+            Vector2 touchPoint = new Vector2(camera.unprojectCoordinates(Gdx.input.getX(), Gdx.input.getY()));
+            System.out.println("(" + touchPoint.x + ", " + touchPoint.y + ")");
+        }
 
         moveComponents();
 
@@ -106,14 +113,20 @@ public class GameScreen extends Screen {
     public void drawGameOver(SpriteBatch sb) {
 
         if(!playing && !splash)  {
+            if(points >= pref.getInteger("High Score", points)) {
+                pref.putInteger("High Score", points);
+            }
+            Integer highScore = pref.getInteger("High Score");
 
             // Game Over Screen
             sb.draw(TextureManager.GAME_OVER,
                     flappyB.WIDTH /2 - TextureManager.GAME_OVER.getWidth() / 2,
                     flappyB.HEIGHT /2 - TextureManager.GAME_OVER.getHeight() / 2);
-            BitmapFont.TextBounds fontBounds = font.getBounds(points.toString());
             font.draw(sb, points.toString(),
                     216,
+                    1084);
+            font.draw(sb, highScore.toString(),
+                    550,
                     1084);
 
             // Replay Button

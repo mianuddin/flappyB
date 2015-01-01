@@ -35,7 +35,7 @@ public class LilB {
             lilbSprite.setRotation(lilbSprite.getRotation() + 25);
             lilbSprite.draw(sb);
             frameCount++;
-            if(frameCount == 30) {
+            if(frameCount == 60) {
                 flap = false;
                 frameCount = 0;
             }
