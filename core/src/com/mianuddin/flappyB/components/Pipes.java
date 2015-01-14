@@ -20,7 +20,7 @@ public class Pipes {
         this.positionX2 = x+textureUp.getWidth();
         this.positionTopY = flappyB.HEIGHT;
         Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(840)+1;
+        int randomInt = randomGenerator.nextInt(760)+1;
         positionTopY2 = 548 + randomInt + gap;
         positionBottomY = positionTopY2 - gap;
         positionBottomY2 = 460;
