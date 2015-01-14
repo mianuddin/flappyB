@@ -114,6 +114,7 @@ public class GameScreen extends Screen {
         if(!playing && !splash)  {
             if(points >= pref.getInteger("High Score", points)) {
                 pref.putInteger("High Score", points);
+                pref.flush();
             }
             Integer highScore = pref.getInteger("High Score");
 
