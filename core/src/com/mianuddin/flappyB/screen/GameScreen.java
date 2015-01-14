@@ -2,7 +2,6 @@ package com.mianuddin.flappyB.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -18,10 +17,10 @@ import com.mianuddin.flappyB.flappyB;
 public class GameScreen extends Screen {
 
     private OrthoCamera camera;
-    final int GRAVITY_RATE = 10;
+    final int GRAVITY_RATE = 12;
     final int FLAP_DISTANCE = 240;
     final int PIPE_GAP = FLAP_DISTANCE+TextureManager.LILB.getHeight()+(TextureManager.LILB.getHeight()/3);
-    final int PIPE_MOVE_RATE = 5;
+    final int PIPE_MOVE_RATE = 8;
     boolean playing = false;
     boolean splash = true;
     public Integer points = 0;
